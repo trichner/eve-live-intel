@@ -21,17 +21,29 @@ app.get('/me', function(req, res, next) {
         })
 });
 
-/* POST verify pilots with API keys*/
 app.post('/intel', function(req, res, next) {
     var systemId   = req.eve.solarsystem.id;
-
+    var timestamp  = req.query.timestamp;
+    var state      = req.query.state;
+    service.createIntelReport(pilot, systemId, timestamp, state)
+        .then(function () {
+            req.status(200);
+        })
+        .catch(function (e) {
+            next(e);
+        })
 });
 
-/* POST verify pilots with API keys*/
 app.get('/intel', function(req, res, next) {
-    var key   = req.body.key;
-    var vCode = req.body.vCode;
-
+    var timestamp   = req.query.last_update;
+    var pilot = req.session.passport.user;
+    service.findIntelReportSince(pilot,timestamp)
+        .then(function (reports) {
+            req.json(reports);
+        })
+        .catch(function (e) {
+            next(e);
+        })
 });
 
 

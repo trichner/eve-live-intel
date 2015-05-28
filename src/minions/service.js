@@ -8,7 +8,9 @@ module.exports = {
     verifyPilot : verifyPilot,
     findPilot : findPilot,
     fetchPilotInfo : fetchPilotInfo,
-    createPilot : createPilot
+    createPilot : createPilot,
+    createIntelReport : createIntelReport,
+    findIntelReportSince : findIntelReportSince
 };
 
 function fetchPilotInfo(characterID){
@@ -53,6 +55,17 @@ function findPilot(pilotId){
         });
 }
 
-function postIntel(pilotId,systemId,timestamp,state){
-    return
+function createIntelReport(pilot,systemId,timestamp,state){
+    return dao.createIntelReport(pilot,systemId,new Date(timestamp),state);
+}
+
+function findIntelReportSince(pilot,timestamp){
+    if(!timestamp){
+        timestamp = new Date(0);
+    }
+    return dao.findIntelReportSince(new Date(timestamp))
+        .then(function (reports) {
+            mapped = {'NOT_MAPPED' : 'PLZ MAP ME NAOW'};
+            return mapped;
+        })
 }
