@@ -3,6 +3,8 @@
  * License: http://www.opensource.org/licenses/BSD-2-Clause
  */
 
+// http://util.eveuniversity.org/intelmap/services/intel.php?g=0&t1=&t2=&t3=&last_update=2015-05-28%2020:17:53
+// Response: {"error":false,"serverTime":"2015-05-28 21:39:59","system_id":30002074,"intels":[{"seen_at":"2015-05-28 20:41:41","status":1,"system_id":30002074},{"seen_at":"2015-05-28 20:42:24","status":1,"system_id":30002074},{"seen_at":"2015-05-28 21:38:58","status":0,"system_id":30002074}],"trackers":[]}
 session_start(); /// initialize session
 include("../include/security.php");
 check_logged();

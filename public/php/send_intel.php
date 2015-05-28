@@ -2,6 +2,10 @@
 /* Copyright 2014 Jeremie Roy. All rights reserved.
  * License: http://www.opensource.org/licenses/BSD-2-Clause
  */
+
+// http://util.eveuniversity.org/intelmap/services/send_intel.php?status=1
+
+
 session_start(); /// initialize session
 include("../include/security.php");
 check_logged();

@@ -52,3 +52,7 @@ function findPilot(pilotId){
             return Mapper.mapPilotDBVO(pilot);
         });
 }
+
+function postIntel(pilotId,systemId,timestamp,state){
+    return
+}

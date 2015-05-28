@@ -17,7 +17,6 @@ var sequelize = new Sequelize(
         }
     });
 
-var EXTERNAL_ID_LENGTH = 32;
 
 var Corp = sequelize.define('corp', {
     id: {
@@ -47,44 +46,15 @@ var Pilot = sequelize.define('pilot', {
 },{});
 
 
-var WaitlistItem = sequelize.define('item', {
-    order: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
-    }
-}, {});
-
-var ShipFitting = sequelize.define('fitting', {
-    shipId: {
-        type: Sequelize.STRING
-    },
-    name: {
-        type: Sequelize.STRING
-    },
-    dna: {
-        type: Sequelize.STRING
-    },
-    type: {
-        type: Sequelize.STRING
-    },
-    role: {
-        type: Sequelize.STRING
-    }
-}, {});
-
-var Waitlist = sequelize.define('waitlist', {
-    name: {
-        type: Sequelize.STRING
-    },
-    externalId: {
-        type: Sequelize.STRING
-    }
-}, {});
-
-var SystemIntel = sequelize.define('waitlist', {
+var IntelReport = sequelize.define('intel_report', {
     systemId: {
         type: Sequelize.STRING
+    },
+    timestamp: {
+        type: Sequelize.DATETIME
+    },
+    status: {
+        type: DataTypes.ENUM('CLEAR','HOSTILE')
     }
 }, {});
 
@@ -92,14 +62,16 @@ var SystemIntel = sequelize.define('waitlist', {
 //---- Relations
 Corp.belongsTo(Alliance);
 Pilot.belongsTo(Corp);
-SystemIntel.belongsTo(Pilot, {as: 'reporter'})
+IntelReport.belongsTo(Pilot, {as: 'reporter'})
 sequelize.sync();
 
 module.exports = {
     connect : connect,
     findOrCreatePilot : findOrCreatePilot,
     findAllPilots : findAllPilots,
-    findPilotById : findPilotById
+    findPilotById : findPilotById,
+    createIntelReport : createIntelReport,
+    findIntelReportSince : findIntelReportSince
 }
 
 function connect(){
@@ -141,4 +113,19 @@ function findOrCreatePilot(pilot){
             return pilot;
         })
     })
+}
+
+function createIntelReport(pilot,systemId,timestamp,state){
+    return IntelReport.create({
+            systemId : systemId,
+            timestamp: timestamp,
+            state: state
+        })
+        .then(function (intelReport) {
+            return intelReport.setReporter(pilot);
+        })
+}
+
+function findIntelReportSince(timestamp){
+    return IntelReport.find({ where: {timestamp: {$gt: timestamp}}});
 }
