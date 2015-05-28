@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en" id="ng-app" ng-app="evewt">
+<head>
+	<link rel="stylesheet" type="text/css" href="style/angular-ui-notification.min.css" />
+	<link rel="stylesheet" type="text/css" href="style/index.css" />
+
+    <meta charset="utf-8">
+    <title>Nemesis: an EVE Online Waitlist Management Tool</title>
+	<script src="js/raphael-2.1.2/raphael-min.js"></script>
+    <script src="js/angular-1.2.9/angular.js"></script>
+	<script src="js/angular-1.2.9/angular-cookies.js"></script>
+	<script src="js/angular-ui-notification.min.js"></script>
+    <script src="js/controllers.js"></script>
+	<script src="js/API.js"></script>
+	<script src="js/Minions.js"></script>
+	<script src="js/EveIGB.js"></script>
+</head>
+<body onload='CCPEVE.requestTrust(location.protocol + "//" + location.host + "/*")' ng-controller="wt-list">
+<span>Hello {{me.characterName ? me.characterName : 'Pilot'}}!</span>
+<div ng-class="{remove: !waitlistVO}">
+	<h2>WL Manager: {{waitlistVO.owner.characterName}}</h2>
+	<div id="wlurl-box" class="float-container">
+		<div>
+			<img width="32px" height="32px"	 src="img/url.png"/>
+		</div>
+		<div>
+			<a id="waitlist-link" href="{{getWaitlistUrl()}}">{{getWaitlistUrl()}}</a>
+		</div>
+	</div>
+	<div>
+		<a href="howto.html">How To X-up</a>
+	</div>
+</div>
+
+<div ng-class="{remove: waitlistVO || !authenticated}">
+	<h2>Your previous waitlists:</h2>
+	<ul>
+		<li ng-repeat="list in waitlists">
+			<p>
+				<a id="waitlists-link" href="{{window.location.href + '?waitlistId=' + list.waitlistId}}" target="_self">{{list.waitlistId}}</a>
+			</p>
+		</li>
+	</ul>
+</div>
+
+<div id="container">
+	<div id="sidebar">
+		<div ng-class="{remove: authenticated}">
+			Please log in via EVE Single-Sing-On. <!-- Typo totally intended -->
+			<a href="api/auth">
+				<img title="EVE SSO" src="img/EVESSO_SBLACK.png"/>
+			</a>
+			<input name="remember me" type="checkbox" ng-model="remeberMe">
+			<span>remember me</span>
+		</div>
+		<div ng-class="{remove: !authenticated}" class="actions">
+			Logged in.
+			<button ng-click="logout()">logout</button>
+			<button ng-click="leaveWaitlist()">home</button>
+		</div>
+		<div ng-class="{remove: ((!authenticated) || (waitlistVO))}" class="actions">
+			<button ng-click="newWaitlist()">Create new waitlist</button>
+		</div>
+		<div id="xup" ng-class="{remove: ((!authenticated) || (!waitlistVO))}" class="actions">
+			<input type="text" name="fitting" placeholder="paste ship fitting here" ng-model="shipDNA"
+				   required onclick="this.focus();this.select()">
+			<select ng-model="mRole"
+					ng-options="role.name group by role.type for role in roles">
+			</select>
+			<button ng-click="postFit()">x up!</button>
+		</div>
+		<div id="asciiList-container" class="actions" ng-class="{remove: ((!authenticated) || (!waitlistVO))}">
+			<textarea placeholder="waitlist header" id="asciiHead" ng-model="asciiHead" class="asciiTextarea"></textarea>
+			<textarea placeholder="waitlist in text format" readonly id="asciiList" class="asciiTextarea"
+					  onclick="this.focus();this.select()" ng-model="waitlistTxt"></textarea>
+			<textarea placeholder="waitlist footer" id="asciiFoot" class="asciiTextarea" ng-model="asciiFoot"></textarea>
+		</div>
+	</div>
+	<div id="list" ng-class="{hidden: ((!authenticated) || (!waitlistVO))}">
+		<p>Waitlist: {{stats}}</p>
+		<ol>
+			<li ng-repeat="item in waitlistVO.waitlist track by item.itemId">
+				<p>{{item.characterName}}</p>
+				<div id="wrapper" class="float-container">
+					<div>
+						<img title="{{item.characterName}}" src="https://image.eveonline.com/Character/{{item.characterId}}_64.jpg" ng-click="showCharInfo(item)"/>
+					</div>
+					<div>
+						<div>
+							<img title="{{item.corporationName}}"
+								 src="https://image.eveonline.com/Corporation/{{item.corporationId}}_32.png"
+								 ng-click="showCorporation(item)"/>
+						</div>
+						<div  style="width: 32px;height: 32px">
+							<img ng-class="{hidden: !item.allianceId}" title="{{item.allianceName}}"
+								 src="https://image.eveonline.com/Alliance/{{item.allianceId}}_32.png"
+								 ng-click="showAlliance(item)"/>
+						</div>
+					</div>
+
+					<div class="float-container">
+						<div ng-repeat="fitting in item.fittings" class="textover">
+							<img title="{{fitting.shipName}}" src="https://image.eveonline.com/Render/{{fitting.shipType}}_64.png" ng-click="showFitting(fitting)"/>
+							<p>{{fitting.role ? fitting.role : ''}}</p>
+						</div>
+					</div>
+					<div ng-class="{hidden: !canRemove(item.characterId)}">
+						<img title="remove from list" src="img/close.png" height="64" ng-click="removeItem(item)"/>
+					</div>
+					<div ng-class="{hidden: !isOwner()}">
+						<img title="make boss" src="img/star.png" height="64" ng-click="makeBoss(item)"/>
+					</div>
+					<div class="timer" n1b-timer start-date="item.createdAt">
+					</div>
+					<div ng-class="{remove: !isIGB || !isOwner()}">
+						<img title="send fleetinvite" src="img/add-user.png" height="64" ng-click="fleetInvite(item)"/>
+					</div>
+					<div ng-class="{remove: !isIGB}">
+						<img title="start conversation" src="img/start-conversation.png" height="64"
+							 ng-click="startConversation(item)"/>
+					</div>
+					<div ng-class="{remove: !isIGB} || !isOwner()">
+						<img title="send prepared eve-mail" src="img/send-mail.png" height="64"
+							 ng-click="sendMail(item)"/>
+					</div>
+				</div>
+			</li>
+		</ol>
+	</div>
+</div>
+<div id="footer">
+	Nemesis: an EVE Online Waitlist Management Tool by Thomion, thanks to Titus Tallang for some css magic.
+</div>
+</body>
+</html>

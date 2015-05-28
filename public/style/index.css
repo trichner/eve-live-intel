@@ -1,0 +1,134 @@
+body {
+	margin: 20px;
+	background: rgb(22, 71, 97) url(../img/nebula.jpg);
+	font-family: BankGothic, Arial, sans-serif !important;
+	color: white;
+}
+
+#wlurl-box {
+	overflow: hidden;  /* add this to contain floated children */
+}
+
+a{
+	cursor: pointer;
+	color: rgba(26, 181, 212, 1);
+	text-decoration: underline;
+	vertical-align: middle;
+}
+/*eve plasma #16617E*/
+div#how {
+	position: relative;
+	margin-top: 50px;
+	font-family: monospace;
+	border: 1px solid #DDDDDD;
+	background: rgba(22, 97, 126, 0.8);
+	padding: 5px;
+}
+
+div#how-label {
+	position: absolute;
+	left: 10px;
+	top: -15px;
+	font-size: 160%;
+	font-weight: bold;
+	background: rgba(170, 170, 170, 0.29);
+	border: 1px solid #DDDDDD;
+	padding: 0 5px;
+}
+
+div.h3 {
+	margin-top: 15px;
+	font-weight: bold;
+	font-size: 160%;
+	text-decoration: underline;
+}
+
+div.h4 {
+	margin-top: 10px;
+	font-weight: bold;
+	font-size: 130%;
+}
+
+.asciiTextarea {
+	width: 275px;
+	resize: none;
+}
+
+#asciiList {
+	min-height: 400px;
+}
+
+#wrapper {
+	width: 600px;
+	border: 1px solid black;
+	background-color: rgba(0, 0, 0, 0.18);
+	overflow: hidden;  /* add this to contain floated children */
+}
+#first {
+	width: 300px;
+	float:left; /* add this */
+}
+#second {
+	float: left; /* add this */
+}
+
+#container {
+	width: 100%;
+	overflow: hidden; /* will contain if #first is longer than #second */
+}
+#sidebar {
+	width: 300px;
+	min-height: 100px;
+	float:left;
+}
+#list {
+	float: left;
+}
+
+.timer{
+	height: 64px;
+	width: 64px;
+}
+
+.actions {
+	margin: 5px;
+	padding: 3px;
+	border: 1px dashed white;
+	background: rgba(22, 97, 126, 0.8);
+}
+
+div.float-container > div {
+	float: left; /* add this */
+	margin: 0;
+	padding: 0;
+}
+
+img{display:block;}
+
+.hidden {
+	visibility: hidden;
+}
+
+.remove {
+	display: none;
+}
+
+.textover {
+	position: relative;
+}
+
+.textover > p {
+	position: absolute;
+	bottom: -1.1em;
+	left: 0em;
+	font-weight: bold;
+	color: white;
+	opacity: 0.8;
+}
+
+#footer {
+	font-family: BankGothic,"Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 0.7em;
+	font-style: italic;
+	padding: 1em;
+}

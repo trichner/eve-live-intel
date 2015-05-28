@@ -1,0 +1,122 @@
+<!--<?php-->
+<!--/* Copyright 2014 Jeremie Roy. All rights reserved.-->
+ <!--* License: http://www.opensource.org/licenses/BSD-2-Clause-->
+ <!--*/-->
+<!--session_start(); /// initialize session-->
+<!--include("./include/security.php");-->
+<!--check_logged();-->
+
+<!--//var_dump($_SESSION);-->
+<!--?>-->
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <title>Eve Online Live Intel</title>
+    <script src="js/map/d3.min.js" ></script>
+    <script src="js/map/mapData.min.js" ></script>
+    <script src="js/map/intel_map.min.js" ></script>
+</head>
+<body onload='CCPEVE.requestTrust(location.protocol + "//" + location.host + "/*")'>
+<div class="header_intel" id="header_intel">
+    <div>
+        <div class="progress_button hostile" onclick="update_hostile();"><div id="progress_hostile"><span>Hostile</span></div></div>
+        <span id="local_timer_text">??:??</span>
+        <div type="button" class="progress_button friendly" onclick="update_clear();"><div id="progress_friendly"><span>Clear</span></div></div>
+
+        <span id="local_system_name" class="local_system_name">Unknown</span>
+        <a style="cursor:pointer;" onclick="toggle_options()">options</a>
+        <a style="cursor:pointer;" href="logout.php">logout</a>
+    </div>
+</div>
+
+<div class="header_options" id="header_options">
+    <div class = "box">
+        <h1>Map layout</h1>
+        <div>
+            <label><input type="radio" name="group1" value="layout_classic" onclick="set_map_mode(0);" checked />Classic</label>
+            <label><input type="radio" name="group1" value="layout_radial" onclick ="set_map_mode(1);" />Radial</label>
+            <label><input type="radio" name="group1" value="layout_tactical" onclick ="set_map_mode(2);" />Tactical</label>
+            <!--<label><input type="radio" name="group1" value="layout_tactical" onclick ="set_map_mode(3);" />Stacked</label>-->
+        </div>
+    </div>
+    <div class = "box">
+        <h1>Map options</h1>
+        <div>
+            <label><input type="checkbox" onclick ="toggle_show_links();" checked />Show links</label>
+            <label><input type="checkbox" onclick ="toggle_show_names();" checked />Show names</label>
+            <label><input type="checkbox" onclick ="toggle_show_elapsed_times();" checked />Show elapsed time</label>
+            <label><input type="checkbox" onclick ="toggle_show_security_status();" checked />Show security status</label>
+            <label><input type="checkbox" onclick ="toggle_show_intel_panel();" checked />Show intel panel</label>
+        </div>
+    </div>
+
+    <div class = "box">
+        <h1>Legend</h1>
+        <div>
+            <div>
+                <span class="legend freshBlue">Clear</span>
+                <span class="legend middleBlue">> 5 min</span>
+                <span class="legend oldBlue">> 15 min</span>
+                <span class="legend gray">> 30 min</span>
+            </div>
+            <div>
+                <span class="legend freshRed">Hostile</span>
+                <span class="legend middleRed">> 5 min</span>
+                <span class="legend oldRed">> 15 min</span>
+                <span class="legend gray">> 30 min</span>
+            </div>
+        </div>
+        <!--
+        <div class="grad1"></div>
+        <div class="grad2"></div>
+        <div class="grad3"></div>
+      -->
+    </div>
+    <div class = "box">
+        <h1>
+            <!--<?php if( isset($_SESSION["unique_id"])) {-->
+        <!--echo "My token:  <b>".$_SESSION["unique_id"]."</b>";-->
+            <!--}else{-->
+            <!--echo "Tracked token:  <b>".$_SESSION["track_token"]."</b>";-->
+            <!--}-->
+            <!--?>-->
+        </h1>
+        <div>
+            <label class="t1">Tracker 1<input type="text" id="tracker_1"/></label>
+            <label class="t2">Tracker 2<input type="text" id="tracker_2"/></label>
+            <label class="t3">Tracker 3<input type="text" id="tracker_3"/></label>
+            <label><input type="checkbox" onclick ="toggle_orbit_target();" />Orbit</label>
+        </div>
+    </div>
+</div>
+
+<div class="map_container" id="map_container"></div>
+<div class="intel_container" id="intel_container"></div>
+
+<!--<?php-->
+<!--echo '<script>';-->
+<!--if( isset($_GET["system_name"]) )-->
+<!--{-->
+<!--echo 'var forced_system_name="'.$_GET["system_name"].'";';-->
+<!--}-->
+
+<!--if( isset($_GET["track_token"]) )-->
+<!--{-->
+<!--echo 'var track_token="'.$_GET["track_token"].'";';-->
+<!--}-->
+<!--echo '</script>';-->
+        <!--?>-->
+
+</body>
+
+
+
+
+
+
+
+
+
+
