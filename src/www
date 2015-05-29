@@ -16,7 +16,7 @@ var root = require('express')();
 
 var port = normalizePort(process.env.PORT || '3000');
 root.set('port', port);
-root.use('/nemesis', app);
+root.use('/eveintel', app);
 /**
  * Create HTTP server.
  */
