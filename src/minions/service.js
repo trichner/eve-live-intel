@@ -58,8 +58,15 @@ function findPilot(pilotId){
         });
 }
 
-function createIntelReport(pilot,systemId,timestamp,state){
-    return dao.createIntelReport(pilot,systemId,new Date(timestamp),state);
+function createIntelReport(pilotId,timestamp,state){
+    return dao.findPilotById(pilotId)
+        .then(function (pilot) {
+            return dao.findLatestTracker(pilot)
+                .then(function (tracker) {
+                    var systemId = tracker.systemId;
+                    return dao.createIntelReport(pilot,systemId,new Date(timestamp),state);
+                })
+        })
 }
 
 function findIntelReportSince(pilot,timestamp){

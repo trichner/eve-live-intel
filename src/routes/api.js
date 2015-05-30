@@ -32,13 +32,12 @@ app.get('/me', function(req, res, next) {
 });
 
 app.post('/intel', function(req, res, next) {
-    var systemId   = req.eve.solarsystem.id;
     var timestamp  = req.query.timestamp;
     var state      = req.query.state;
     var pilotId = req.session.passport.user;
-    service.createIntelReport(pilotId, systemId, timestamp, state)
+    service.createIntelReport(pilotId, timestamp, state)
         .then(function () {
-            res.status(200);
+            res.status(200).end();
         })
         .catch(function (e) {
             next(e);
