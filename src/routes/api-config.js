@@ -52,7 +52,7 @@ function setupMiddleware(app){
 
     app.use(cookieParser());
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false, type: 'application/x-www-form-urlencoded' }));
+    app.use(bodyParser.urlencoded({ extended: true, type: 'application/x-www-form-urlencoded' }));
     app.use(eveHeader);
     app.use(session({
         secret: minions.getSessionSecret(),

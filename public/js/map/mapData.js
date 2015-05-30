@@ -203,13 +203,12 @@ var EveLiveData = function() {
 
 		var url = load_intel_url;
 		
-		if(api.tracker1Elem!=null){ url+="&t1="+api.tracker1Elem.value; }			
-		if(api.tracker2Elem!=null){ url+="&t2="+api.tracker2Elem.value; }			
-		if(api.tracker3Elem!=null){ url+="&t3="+api.tracker3Elem.value; }
-		
+		//if(api.tracker1Elem!=null){ url+="&t1="+api.tracker1Elem.value; }
+		//if(api.tracker2Elem!=null){ url+="&t2="+api.tracker2Elem.value; }
+		//if(api.tracker3Elem!=null){ url+="&t3="+api.tracker3Elem.value; }
 		if(last_intel_time_str != null)
 		{
-			url+="&last_update="+last_intel_time_str;
+			url+="?last_update="+last_intel_time_str;
 		}
 
 		//console.log(url);	
