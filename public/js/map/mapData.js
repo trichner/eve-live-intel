@@ -184,8 +184,9 @@ var EveLiveData = function() {
 	var intel_polling_time = 5000;
 
 	function parse_date(str){ 
-	    var arr = str.split(/[- :]/);
-	    return new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
+	    //var arr = str.split(/[- :]/);
+	    //return new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
+		return new Date(str);
 	}
 	
 	var local_system_id = null;

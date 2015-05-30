@@ -58,11 +58,21 @@ var IntelReport = sequelize.define('intel_report', {
     }
 }, {});
 
+var Tracker = sequelize.define('tracker', {
+    systemId: {
+        type: Sequelize.STRING
+    },
+    timestamp: {
+        type: Sequelize.DATE
+    }
+}, {});
+
 
 //---- Relations
 Corp.belongsTo(Alliance);
 Pilot.belongsTo(Corp);
-IntelReport.belongsTo(Pilot, {as: 'reporter'})
+IntelReport.belongsTo(Pilot, {as: 'reporter'});
+Tracker.belongsTo(Pilot); // TODO
 sequelize.sync();
 
 module.exports = {
