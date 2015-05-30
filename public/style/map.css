@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     color:#bfbfbf;
-    background: #121212;
+    background: rgb(22, 71, 97) url(../img/nebula.jpg);
 }
 div, button{
     margin:0;
@@ -154,7 +154,7 @@ input[type="text"]{
     position: absolute;
     top: 35px; bottom: 0;
     left: 0; right: 0;
-    background-color:#121212;
+    /*background-color:#121212;*/
     z-index:-1;
 }
 .intel_container {
