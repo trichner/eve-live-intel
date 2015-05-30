@@ -45,6 +45,9 @@ function mapIntel(tracker,reports){
     console.log("Tracker: " + JSON.stringify(tracker))
     console.log("Reports: " + JSON.stringify(reports))
     var mapped = {};
+    if(!reports){
+        reports = [];
+    }
     var preports = reports.map(function (report) {
         return mapIntelReportDBVO(report);
     });
