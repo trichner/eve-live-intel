@@ -69,7 +69,7 @@ var Tracker = sequelize.define('tracker', {
         type: Sequelize.STRING
     },
     timestamp: {
-        type: Sequelize.NOW
+        type: Sequelize.DATE
     }
 }, {});
 
@@ -100,7 +100,8 @@ function createTracker(pilot,systemId,regionId,stationId){
     return Tracker.create({
                 systemId:systemId,
                 regionId:regionId,
-                stationId:stationId
+                stationId:stationId,
+                timestamp:new Date()
                 })
         .then(function (tracker) {
             return tracker.setPilot(pilot);
