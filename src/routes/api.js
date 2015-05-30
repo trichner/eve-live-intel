@@ -27,7 +27,7 @@ app.post('/intel', function(req, res, next) {
     var state      = req.query.state;
     service.createIntelReport(pilot, systemId, timestamp, state)
         .then(function () {
-            req.status(200);
+            res.status(200);
         })
         .catch(function (e) {
             next(e);
@@ -40,7 +40,7 @@ app.get('/intel', function(req, res, next) {
     service.findIntelReportSince(pilot,timestamp)
         .then(function (reports) {
             reports.eve = req.eve;
-            req.json(reports);
+            res.json(reports);
         })
         .catch(function (e) {
             next(e);
