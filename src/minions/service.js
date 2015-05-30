@@ -67,11 +67,6 @@ function findIntelReportSince(pilot,timestamp){
         timestamp = new Date(0);
     }
     return dao.findIntelReportSince(new Date(timestamp)) // TODO
-        .then(function (reports) {
-            return reports.map(function (report) {
-                return Mapper.mapIntelReportDBVO(report);
-            });
-        })
 }
 
 function updateTracker(pilot,eveheaders){
