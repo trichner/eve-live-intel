@@ -526,55 +526,56 @@ function orbit_targets()
 }
 
 function draw_targets(trackers) {
-  tracked_targets=[];
-
-  for (var i = 0; i < t_ar.length; i++)
-  {
-    var target_node = d3.select("#target_"+t_ar[i]);
-    if(t_ar[i] in trackers)
-    {
-        var system_node = d3.select("#system_" + trackers[t_ar[i]]);
-        if(!system_node.empty())
-        {
-
-          var create = true;
-          //should I create a new target node
-          if(!target_node.empty() )
-          {
-              if( target_node.node().parentNode != system_node.node())
-              {
-                target_node.remove();
-              }else{
-                create = false;
-                tracked_targets.push(target_node);
-              }
-          }
-
-          if(create)
-          {
-              var d = NODE_RADIUS+7;
-              var w = 6;
-              var a = 45*i*Math.PI/180;
-              var n = system_node.append("rect")
-                .attr("class", "tracking_target"+" "+t_ar[i])
-                //.attr("shape-rendering","crispEdges")
-                .attr("id", "target_"+t_ar[i])
-                .attr("x", d*Math.cos(a) - w/2)
-                .attr("y", d*Math.sin(a) - w/2)
-                .attr("width", w)
-                .attr("height", w);
-            tracked_targets.push(n);
-          }
-        }else if(!target_node.empty())
-        {
-          target_node.remove();
-        }
-
-    }else if(!target_node.empty())
-    {
-      target_node.remove();
-    }
-  }
+    // FIXME not working atm
+  //tracked_targets=[];
+  //
+  //for (var i = 0; i < t_ar.length; i++)
+  //{
+  //  var target_node = d3.select("#target_"+t_ar[i]);
+  //  if(t_ar[i] in trackers)
+  //  {
+  //      var system_node = d3.select("#system_" + trackers[t_ar[i]]);
+  //      if(!system_node.empty())
+  //      {
+  //
+  //        var create = true;
+  //        //should I create a new target node
+  //        if(!target_node.empty() )
+  //        {
+  //            if( target_node.node().parentNode != system_node.node())
+  //            {
+  //              target_node.remove();
+  //            }else{
+  //              create = false;
+  //              tracked_targets.push(target_node);
+  //            }
+  //        }
+  //
+  //        if(create)
+  //        {
+  //            var d = NODE_RADIUS+7;
+  //            var w = 6;
+  //            var a = 45*i*Math.PI/180;
+  //            var n = system_node.append("rect")
+  //              .attr("class", "tracking_target"+" "+t_ar[i])
+  //              //.attr("shape-rendering","crispEdges")
+  //              .attr("id", "target_"+t_ar[i])
+  //              .attr("x", d*Math.cos(a) - w/2)
+  //              .attr("y", d*Math.sin(a) - w/2)
+  //              .attr("width", w)
+  //              .attr("height", w);
+  //          tracked_targets.push(n);
+  //        }
+  //      }else if(!target_node.empty())
+  //      {
+  //        target_node.remove();
+  //      }
+  //
+  //  }else if(!target_node.empty())
+  //  {
+  //    target_node.remove();
+  //  }
+  //}
 }
 
 function draw_intel() {

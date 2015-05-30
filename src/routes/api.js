@@ -8,11 +8,12 @@ var app = express();
 apiConfig.setupMiddleware(app);
 
 app.use(function(req, res, next) {
-    console.log('Headers: ' + JSON.stringify(req.headers))
-    console.log('Tracking... ' + JSON.stringify(req.eve))
     if(req.eve.solarsystem.id){
+        console.log('Tracking... ' + JSON.stringify(req.eve.solarsystem.id))
         var pilotId = req.session.passport.user;
         service.updateTracker(pilotId, req.eve);
+    }else{
+        console.log('No headers :(')
     }
     next();
 })
@@ -46,7 +47,6 @@ app.post('/intel', function(req, res, next) {
 });
 
 app.get('/intel', function(req, res, next) {
-    console.log('2Tracking... ' + JSON.stringify(req.eve))
     var timestamp   = req.query.last_update;
     var pilotId = req.session.passport.user;
     service.getIntel(pilotId,timestamp)
