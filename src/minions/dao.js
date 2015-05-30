@@ -69,7 +69,7 @@ var Tracker = sequelize.define('tracker', {
         type: Sequelize.STRING
     },
     timestamp: {
-        type: Sequelize.DATE
+        type: Sequelize.NOW
     }
 }, {});
 
@@ -87,11 +87,28 @@ module.exports = {
     findAllPilots : findAllPilots,
     findPilotById : findPilotById,
     createIntelReport : createIntelReport,
-    findIntelReportSince : findIntelReportSince
+    findIntelReportSince : findIntelReportSince,
+    createTracker : createTracker,
+    findLatestTracker : findLatestTracker
 }
 
 function connect(){
     return sequelize.sync();
+}
+
+function createTracker(pilot,systemId,regionId,stationId){
+    return Tracker.create({
+                systemId:systemId,
+                regionId:regionId,
+                stationId:stationId
+                })
+        .then(function (tracker) {
+            return tracker.setPilot(pilot);
+        })
+}
+
+function findLatestTracker(pilot){
+    return Tracker.findOne({ where: {pilotId: pilot.id}, order:['timestamp','DESC']})
 }
 
 function assertObject(obj){
