@@ -45,6 +45,7 @@ app.post('/intel', function(req, res, next) {
 });
 
 app.get('/intel', function(req, res, next) {
+    console.log('2Tracking... ' + JSON.stringify(req.eve))
     var timestamp   = req.query.last_update;
     var pilotId = req.session.passport.user;
     service.getIntel(pilotId,timestamp)
