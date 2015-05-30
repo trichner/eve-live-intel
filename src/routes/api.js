@@ -36,7 +36,6 @@ app.post('/intel', function(req, res, next) {
     var timestamp  = req.query.timestamp;
     var state      = req.query.state;
     var pilotId = req.session.passport.user;
-    service.updateTracker(pilotId, req.eve);
     service.createIntelReport(pilotId, systemId, timestamp, state)
         .then(function () {
             res.status(200);
