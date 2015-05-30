@@ -31,7 +31,7 @@ function setupMiddleware(app){
             tokenURL: 'https://login.eveonline.com/oauth/token',
             clientID: credentials.clientID,
             clientSecret: credentials.clientSecret,
-            callbackURL: "https://k42.ch/nemesis/api/auth/callback",
+            callbackURL: "https://k42.ch/eveintel/api/auth/callback",
             passReqToCallback: true
         },
         function(req,accessToken, refreshToken, profile, done) {
@@ -64,8 +64,8 @@ function setupMiddleware(app){
     app.get('/auth', passport.authenticate('oauth2'));
     app.get('/auth/callback',
         passport.authenticate('oauth2',{
-            successRedirect : '/nemesis/',
-            failureRedirect : '/nemesis/'
+            successRedirect : '/eveintel/',
+            failureRedirect : '/eveintel/'
         }));
 
 
