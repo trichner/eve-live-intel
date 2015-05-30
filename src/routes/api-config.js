@@ -81,7 +81,7 @@ function setupMiddleware(app){
             }
         })
     });
-
+    /*
     app.use(function(req, res, next) {
         if(req.isAuthenticated()){
             next();
@@ -90,7 +90,7 @@ function setupMiddleware(app){
             err.status = 401;
             return next(err);
         }
-    })
+    })*/
 }
 
 module.exports = {

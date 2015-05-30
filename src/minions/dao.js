@@ -8,7 +8,7 @@ var Q = require('q');
 var minions = require('./Minions');
 
 var sequelize = new Sequelize(
-    'mysql://nemesis:1234@localhost:3306/nemesis', // HARDCODED for now
+    'mysql://eveintel:1234@localhost:3306/eveintel', // HARDCODED for now
     {
         logging: false,
         pool: {

@@ -39,6 +39,7 @@ app.get('/intel', function(req, res, next) {
     var pilot = req.session.passport.user;
     service.findIntelReportSince(pilot,timestamp)
         .then(function (reports) {
+            reports.eve = req.eve;
             req.json(reports);
         })
         .catch(function (e) {
