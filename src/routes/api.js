@@ -9,15 +9,15 @@ apiConfig.setupMiddleware(app);
 
 app.use(function(req, res, next) {
     if(req.eve){
-        var pilot = req.session.passport.user;
-        service.updateTracker(pilot, req.eve);
+        var pilotId = req.session.passport.user;
+        service.updateTracker(pilotId, req.eve);
     }
     next();
 })
 
 /* GET get self*/
 app.get('/me', function(req, res, next) {
-    var pilotId = req.session.pilotId;
+    var pilotId = req.session.passport.user;
     console.log('Session: ' + JSON.stringify(req.session))
     service.findPilot(pilotId)
         .then(function (pilot) {
@@ -33,9 +33,9 @@ app.post('/intel', function(req, res, next) {
     var systemId   = req.eve.solarsystem.id;
     var timestamp  = req.query.timestamp;
     var state      = req.query.state;
-    var pilot = req.session.passport.user;
-    service.updateTracker(pilot, req.eve);
-    service.createIntelReport(pilot, systemId, timestamp, state)
+    var pilotId = req.session.passport.user;
+    service.updateTracker(pilotId, req.eve);
+    service.createIntelReport(pilotId, systemId, timestamp, state)
         .then(function () {
             res.status(200);
         })
@@ -46,11 +46,8 @@ app.post('/intel', function(req, res, next) {
 
 app.get('/intel', function(req, res, next) {
     var timestamp   = req.query.last_update;
-    var pilot = req.session.user;
-    console.log("Session: " + JSON.stringify(req.session))
-    console.log("Pilot: " + JSON.stringify(pilot))
-    console.log("timestamp: " + JSON.stringify(timestamp))
-    service.getIntel(pilot,timestamp)
+    var pilotId = req.session.passport.user;
+    service.getIntel(pilotId,timestamp)
         .then(function (intel) {
             res.json(intel);
         })

@@ -66,22 +66,28 @@ function findIntelReportSince(pilot,timestamp){
     if(!timestamp){
         timestamp = new Date(0);
     }
-    return dao.findIntelReportSince(new Date(timestamp)) // TODO
+    return dao.findIntelReportSince(new Date(timestamp))
 }
 
-function updateTracker(pilot,eveheaders){
-    return dao.createTracker(pilot,eveheaders.solarsystem.id,eveheaders.region.id,eveheaders.station.id);
+function updateTracker(pilotId,eveheaders){
+    return dao.findPilotById(pilotId)
+        .then(function (pilot) {
+            return dao.createTracker(pilot,eveheaders.solarsystem.id,eveheaders.region.id,eveheaders.station.id);
+        })
 }
 
 function findLatestTracker(pilot){
     return dao.findLatestTracker(pilot)
 }
 
-function getIntel(pilot,timestamp){
+function getIntel(pilotId,timestamp){
     if(!timestamp) {
         timestamp = new Date(0);
     }
-    return Q.all([findIntelReportSince(pilot,timestamp),findLatestTracker(pilot)])
+    return dao.findPilotById(pilotId)
+        .then(function (pilot) {
+            return Q.all([findIntelReportSince(pilot,timestamp),findLatestTracker(pilot)])
+        })
         .spread(function (reports,tracker) {
             return Mapper.mapIntel(tracker, reports);
         })
