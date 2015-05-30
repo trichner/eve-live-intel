@@ -1,7 +1,8 @@
 var Q = require('q');
 
 module.exports = {
-    mapPilotDBVO : mapPilotDBVO
+    mapPilotDBVO : mapPilotDBVO,
+    mapIntelReportDBVO : mapIntelReportDBVO
 }
 
 // Response:

@@ -62,6 +62,12 @@ var Tracker = sequelize.define('tracker', {
     systemId: {
         type: Sequelize.STRING
     },
+    regionId: {
+        type: Sequelize.STRING
+    },
+    stationId: {
+        type: Sequelize.STRING
+    },
     timestamp: {
         type: Sequelize.DATE
     }

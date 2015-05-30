@@ -63,9 +63,10 @@ function findIntelReportSince(pilot,timestamp){
     if(!timestamp){
         timestamp = new Date(0);
     }
-    return dao.findIntelReportSince(new Date(timestamp))
+    return dao.findIntelReportSince(new Date(timestamp)) // TODO
         .then(function (reports) {
-            mapped = {'NOT_MAPPED' : 'PLZ MAP ME NAOW'};
-            return mapped;
+            return reports.map(function (report) {
+                return Mapper.mapIntelReportDBVO(report);
+            });
         })
 }
