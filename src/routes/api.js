@@ -8,6 +8,7 @@ var app = express();
 apiConfig.setupMiddleware(app);
 
 app.use(function(req, res, next) {
+    console.log('Headers: ' + req.headers)
     console.log('Tracking... ' + JSON.stringify(req.eve))
     if(req.eve.solarsystem.id){
         var pilotId = req.session.passport.user;
