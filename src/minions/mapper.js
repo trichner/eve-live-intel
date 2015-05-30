@@ -2,7 +2,8 @@ var Q = require('q');
 
 module.exports = {
     mapPilotDBVO : mapPilotDBVO,
-    mapIntelReportDBVO : mapIntelReportDBVO
+    mapIntelReportDBVO : mapIntelReportDBVO,
+    mapIntel : mapIntel
 }
 
 // Response:
@@ -39,6 +40,20 @@ module.exports = {
  }
  }, {});
  */
+
+function mapIntel(tracker,reports){
+    var mapped = {};
+    var preports = reports.map(function (report) {
+        return mapIntelReportDBVO(report);
+    });
+    return Q.all(preports)
+        .then(function (mreports) {
+            mapped.intels = mreports;
+            mapped.system_id = tracker.systemId;
+            return mapped;
+        })
+}
+
 function mapIntelReportDBVO(report){
     var mapped = {};
     mapped.status       = mapIntelReportState(report.status);

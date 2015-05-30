@@ -7,6 +7,14 @@ var app = express();
 
 apiConfig.setupMiddleware(app);
 
+app.use(function(req, res, next) {
+    if(req.eve){
+        var pilot = req.session.passport.user;
+        service.updateTracker(pilot, req.eve);
+    }
+    next();
+})
+
 /* GET get self*/
 app.get('/me', function(req, res, next) {
     var pilotId = req.session.pilotId;
@@ -25,6 +33,8 @@ app.post('/intel', function(req, res, next) {
     var systemId   = req.eve.solarsystem.id;
     var timestamp  = req.query.timestamp;
     var state      = req.query.state;
+    var pilot = req.session.passport.user;
+    service.updateTracker(pilot, req.eve);
     service.createIntelReport(pilot, systemId, timestamp, state)
         .then(function () {
             res.status(200);
@@ -37,10 +47,9 @@ app.post('/intel', function(req, res, next) {
 app.get('/intel', function(req, res, next) {
     var timestamp   = req.query.last_update;
     var pilot = req.session.passport.user;
-    service.findIntelReportSince(pilot,timestamp)
-        .then(function (reports) {
-            reports.eve = req.eve;
-            res.json(reports);
+    service.getIntel(pilot,timestamp)
+        .then(function (intel) {
+            res.json(intel);
         })
         .catch(function (e) {
             next(e);

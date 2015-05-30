@@ -10,7 +10,10 @@ module.exports = {
     fetchPilotInfo : fetchPilotInfo,
     createPilot : createPilot,
     createIntelReport : createIntelReport,
-    findIntelReportSince : findIntelReportSince
+    findIntelReportSince : findIntelReportSince,
+    updateTracker : updateTracker,
+    findLatestTracker : findLatestTracker,
+    getIntel : getIntel
 };
 
 function fetchPilotInfo(characterID){
@@ -68,5 +71,23 @@ function findIntelReportSince(pilot,timestamp){
             return reports.map(function (report) {
                 return Mapper.mapIntelReportDBVO(report);
             });
+        })
+}
+
+function updateTracker(pilot,eveheaders){
+    return dao.createTracker(pilot,eveheaders.solarsystem.id,eveheaders.region.id,eveheaders.station.id);
+}
+
+function findLatestTracker(pilot){
+    return dao.findLatestTracker(pilot)
+}
+
+function getIntel(pilot,timestamp){
+    if(!timestamp) {
+        timestamp = new Date(0);
+    }
+    return Q.all([findIntelReportSince(pilot,timestamp),findLatestTracker(pilot)])
+        .spread(function (reports,tracker) {
+            return Mapper.mapIntel(tracker, reports);
         })
 }
