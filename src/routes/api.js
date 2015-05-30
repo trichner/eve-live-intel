@@ -9,6 +9,7 @@ apiConfig.setupMiddleware(app);
 
 app.use(function(req, res, next) {
     if(req.eve.solarsystem.id){
+        console.log('Tracking... ' + JSON.stringify(req.eve))
         var pilotId = req.session.passport.user;
         service.updateTracker(pilotId, req.eve);
     }
@@ -18,7 +19,6 @@ app.use(function(req, res, next) {
 /* GET get self*/
 app.get('/me', function(req, res, next) {
     var pilotId = req.session.passport.user;
-    console.log('Session: ' + JSON.stringify(req.session))
     service.findPilot(pilotId)
         .then(function (pilot) {
             pilot.eve = req.eve;    //add request headers
