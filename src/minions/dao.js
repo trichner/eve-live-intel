@@ -98,10 +98,10 @@ function connect(){
 
 function createTracker(pilot,systemId,regionId,stationId){
     return Tracker.create({
-                systemId:systemId,
-                regionId:regionId,
-                stationId:stationId,
-                timestamp:new Date()
+                systemId:  systemId,
+                regionId:  regionId,
+                stationId: stationId,
+                timestamp: new Date()
                 })
         .then(function (tracker) {
             return tracker.setPilot(pilot);
@@ -109,7 +109,7 @@ function createTracker(pilot,systemId,regionId,stationId){
 }
 
 function findLatestTracker(pilot){
-    return Tracker.findOne({ where: {pilotId: pilot.id}, order:['timestamp','DESC']})
+    return Tracker.findOne({ where: {pilotId: pilot.id}, order:[['timestamp','DESC']]})
 }
 
 function assertObject(obj){
