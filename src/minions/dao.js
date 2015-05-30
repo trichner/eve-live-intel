@@ -51,10 +51,10 @@ var IntelReport = sequelize.define('intel_report', {
         type: Sequelize.STRING
     },
     timestamp: {
-        type: Sequelize.DATETIME
+        type: Sequelize.DATE
     },
     status: {
-        type: DataTypes.ENUM('CLEAR','HOSTILE')
+        type: Sequelize.ENUM('CLEAR','HOSTILE')
     }
 }, {});
 

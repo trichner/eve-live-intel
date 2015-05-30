@@ -177,9 +177,9 @@ return {
 }();
 
 var EveLiveData = function() {
-	var load_intel_url = 'services/intel.php?g=0';
-	var send_intel_hostile_url = 'services/send_intel.php?status=1';
-	var send_intel_clear_url = 'services/send_intel.php?status=0';
+	var load_intel_url 			= 'api/intel';
+	var send_intel_hostile_url  = 'api/intel?status=1';
+	var send_intel_clear_url 	= 'api/intel?status=0';
 
 	var intel_polling_time = 5000;
 
@@ -295,14 +295,14 @@ var EveLiveData = function() {
 
 	function update_local_hostile() {
 	    var xhr = new XMLHttpRequest();
-	    xhr.open("GET", send_intel_hostile_url, true);
+	    xhr.open("POST", send_intel_hostile_url, true);
 	    xhr.onload = load_intel;
 	    xhr.send();
 	}
 
 	function update_local_clear() {
 	    var xhr = new XMLHttpRequest();
-	    xhr.open("GET", send_intel_clear_url, true);
+	    xhr.open("POST", send_intel_clear_url, true);
 	    xhr.onload = load_intel;
 	    xhr.send();
 	}

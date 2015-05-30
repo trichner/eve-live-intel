@@ -5,12 +5,12 @@
 // Already in html
 //if (typeof (CCPEVE) !== "undefined" ) {CCPEVE.requestTrust('http://www.yourwebsite.org'); }
 
-function parse_date(str){ 
+function parse_date(str){
     var arr = str.split(/[- :]/);
     return new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
 }
 
-function shorten_date(str){ 
+function shorten_date(str){
   var arr = str.split(/[- :]/);
   return arr[3]+":"+arr[4];
 }
@@ -25,7 +25,7 @@ function update_clear() {
 }
 
 function toggle_options() {
-    var options_div = document.getElementById("header_options");  
+    var options_div = document.getElementById("header_options");
     if (options_div.style.display == "block") {
         options_div.style.display = "none";
     } else {
@@ -38,8 +38,8 @@ var Options = {
     map_mode: 0,
     show_links: true,
     show_names: true,
-    show_elapsed_times: true,    
-    show_security_status: true,    
+    show_elapsed_times: true,
+    show_security_status: true,
     orbit_targets : false
 };
 
@@ -71,7 +71,7 @@ function toggle_show_security_status() {
     Options.show_security_status = !Options.show_security_status;
     draw_map();
 }
-function toggle_show_intel_panel() {    
+function toggle_show_intel_panel() {
     var intel_panel = document.getElementById("intel_container");
     if (intel_panel.style.display == "none") {
         intel_panel.style.display = "inline-block";
@@ -82,7 +82,7 @@ function toggle_show_intel_panel() {
 
 
 function toggle_orbit_target() {
-    Options.orbit_targets  = !Options.orbit_targets;   
+    Options.orbit_targets  = !Options.orbit_targets;
 }
 
 var Data = {
@@ -97,13 +97,13 @@ var Data = {
 };
 
 var map_container = document.getElementById('map_container');
-  width = map_container.clientWidth;
-  height = map_container.clientHeight;
+width = map_container.clientWidth;
+height = map_container.clientHeight;
 
 var message_overlay = null;
 function setMessageOverlay(text)
 {
-    removeMessageOverlay();        
+    removeMessageOverlay();
     message_overlay = d3.select("svg")
         .append("text")
         .attr("class", "info")
@@ -122,9 +122,9 @@ function removeMessageOverlay()
   }
 }
 
-function print_error(txt) 
+function print_error(txt)
 {
-  setMessageOverlay("Error: "+txt);  
+  setMessageOverlay("Error: "+txt);
 }
 
 
@@ -194,14 +194,14 @@ d3.select("#map_container")
         .on("zoomstart", zoom_start)
         .on("zoomend", zoom_end));
 
-function draw_map() {   
+function draw_map() {
 
     //console.log("draw_map");
     // Remove map layout and data
     if (map_svg != null) {
         map_svg.remove();
     }
-   
+
     map_svg = main_svg.append("g")
         .attr("id", "map_svg");
 
@@ -245,7 +245,7 @@ function draw_map() {
 
     //rescale the systems positions to fit 90% of the map area
     var scale_size = 0.9 * Math.min(width / map_width, height / map_height);
-     
+
     Data.nodes.forEach(function (node) {
         node.px = (node.system.x - Data.min_x) * scale_size;
         node.py = (map_height - node.system.y + Data.min_y) * scale_size;
@@ -266,7 +266,7 @@ function draw_map() {
             node.x = node.px;
             node.y = node.py;
         });
-    } else {      
+    } else {
         //center on screen
         Data.nodes.forEach(function (node) {
             node.px += (width - scale_size * map_width) / 2;
@@ -295,8 +295,8 @@ function draw_map() {
         .data(Data.nodes)
         .enter()
         .append("g") //set a group for the node
-        .attr("class", "node")        
-        .attr("id", function (d) {          
+        .attr("class", "node")
+        .attr("id", function (d) {
             return "system_" + d.system.id;
         });
     //.on("click", function(d) { show_system_menu(d); });
@@ -310,7 +310,7 @@ function draw_map() {
     }
 
     node_circles = nodes.append("circle")
-        //.attr("r", function(d) { return 4 + 2*(Data.max_jumps - d.jumps); } )      
+        //.attr("r", function(d) { return 4 + 2*(Data.max_jumps - d.jumps); } )
         .attr("r", NODE_RADIUS);
         //.attr("id", function (d) {
             //return "system_" + d.id;
@@ -352,7 +352,7 @@ function draw_map() {
                 if (node.jumps > 0) {
 
                     var angle = -Math.PI / 2 + Math.PI * 2 * index_per_jumps[node.jumps] / Data.nodes_per_jumps[node.jumps];
-                   
+
                     node.x = width / 2 + Math.cos(angle) * node.jumps * JUMP_CIRCLE_RADIUS;
                     node.y = height / 2 + Math.sin(angle) * node.jumps * JUMP_CIRCLE_RADIUS;
                     index_per_jumps[node.jumps]++;
@@ -361,13 +361,13 @@ function draw_map() {
                     node.y = height / 2;
                 }
             });
-        } 
+        }
         /*else if (Options.map_mode == 3) {
             var index_per_jumps = Array();
             for (var i = 0; i < Data.max_jumps + 1; ++i) {
                 index_per_jumps.push(0);
             }
-            
+
             var base_count = 10;
             var ref_angle = (Math.PI*2) / base_count;
 
@@ -381,7 +381,7 @@ function draw_map() {
                     angle_start-= angle_step * (Data.nodes_per_jumps[node.jumps]-1)/2;
 
                     var angle = angle_start + angle_step * index_per_jumps[node.jumps];
-                    
+
                     node.x = width / 2 + Math.cos(angle) * node.jumps * JUMP_CIRCLE_RADIUS;
                     node.y = height / 2 + Math.sin(angle) * node.jumps * JUMP_CIRCLE_RADIUS;
                     index_per_jumps[node.jumps]++;
@@ -391,11 +391,11 @@ function draw_map() {
                 }
             });
         }*/
-       
+
     }//end of tick
 
     if (Options.map_mode == 1) {
-        // Run the layout a fixed number of times.    
+        // Run the layout a fixed number of times.
         force.start();
         var n = 100;
         for (var i = n; i > 0; --i) force.tick();
@@ -423,11 +423,11 @@ function draw_node_names()
         var dx = d.x - width / 2;
         var dy = d.y - height / 2;
         var l2 = dx * dx + dy * dy;
-        
+
         var b = this.getBBox();
-        
+
         if( l2 < 1 ){
-          dx = 0; 
+          dx = 0;
           dy = -1;
         }else{
           var l = Math.sqrt(l2);
@@ -450,23 +450,23 @@ function zoom() {
         translation = d3.event.translate;
     }
 
-    //diameter = 2*PI*R    
+    //diameter = 2*PI*R
     var radius= NODE_RADIUS;
     for(var i=1;i<Data.nodes_per_jumps.length;++i)
     {
       var perimeter = Math.PI * 2*JUMP_CIRCLE_RADIUS*i * scaleFactor;
-      var tmp_radius = (0.5 * perimeter / Data.nodes_per_jumps[i])-1;     
+      var tmp_radius = (0.5 * perimeter / Data.nodes_per_jumps[i])-1;
       if(tmp_radius < radius)
       {
-        radius = tmp_radius;    
-      }      
+        radius = tmp_radius;
+      }
     }
     if(radius < NODE_RADIUS)
-    {      
+    {
       node_circles.attr("r", radius);
-    }     
+    }
 
-    //handle nodes zoom  
+    //handle nodes zoom
     if (nodes != null) {
         nodes.attr("transform", function (d) {
             var x = translation[0] + scaleFactor * d.x;
@@ -514,12 +514,12 @@ var t_ar =["t1","t2","t3"];
 var target_timer = new Date();
 d3.timer(orbit_targets);
 
-function orbit_targets() 
-{  
+function orbit_targets()
+{
   if(Options.orbit_targets)
   {
     var delta = new Date() - target_timer;
-    for (var i = 0; i < tracked_targets.length; i++) {   
+    for (var i = 0; i < tracked_targets.length; i++) {
         tracked_targets[i].attr("transform", "rotate("+delta*50/360+")");
     }
   }
@@ -528,15 +528,15 @@ function orbit_targets()
 function draw_targets(trackers) {
   tracked_targets=[];
 
-  for (var i = 0; i < t_ar.length; i++) 
+  for (var i = 0; i < t_ar.length; i++)
   {
-    var target_node = d3.select("#target_"+t_ar[i]);   
+    var target_node = d3.select("#target_"+t_ar[i]);
     if(t_ar[i] in trackers)
-    {         
+    {
         var system_node = d3.select("#system_" + trackers[t_ar[i]]);
         if(!system_node.empty())
         {
-           
+
           var create = true;
           //should I create a new target node
           if(!target_node.empty() )
@@ -544,21 +544,21 @@ function draw_targets(trackers) {
               if( target_node.node().parentNode != system_node.node())
               {
                 target_node.remove();
-              }else{ 
-                create = false;                
+              }else{
+                create = false;
                 tracked_targets.push(target_node);
               }
           }
 
           if(create)
-          {      
+          {
               var d = NODE_RADIUS+7;
               var w = 6;
               var a = 45*i*Math.PI/180;
               var n = system_node.append("rect")
                 .attr("class", "tracking_target"+" "+t_ar[i])
                 //.attr("shape-rendering","crispEdges")
-                .attr("id", "target_"+t_ar[i])            
+                .attr("id", "target_"+t_ar[i])
                 .attr("x", d*Math.cos(a) - w/2)
                 .attr("y", d*Math.sin(a) - w/2)
                 .attr("width", w)
@@ -568,13 +568,13 @@ function draw_targets(trackers) {
         }else if(!target_node.empty())
         {
           target_node.remove();
-        } 
+        }
 
     }else if(!target_node.empty())
     {
       target_node.remove();
-    }    
-  }   
+    }
+  }
 }
 
 function draw_intel() {
@@ -582,7 +582,7 @@ function draw_intel() {
     var serverTime = EveLiveData.get_server_time();
 
     nodes.each(function (node) {
-      var intel = EveLiveData.get_intel_by_system(node.system.id);      
+      var intel = EveLiveData.get_intel_by_system(node.system.id);
       if(intel != null)
       {
         var system_node = d3.select(this);
@@ -637,7 +637,7 @@ function draw_intel() {
               var system_text = system_node.select("text");
               var elapsed = Math.min(timeSpanSeconds, 30 * 60);
               system_text.text( function (d) {
-                
+
                 if (Options.show_names) {
                   return d.system.name+" "+toMMSS(elapsed);
                 }else{
@@ -648,11 +648,11 @@ function draw_intel() {
         }
       }
     });
-    
+
     if(Options.show_elapsed_times)
     {
       draw_node_names();
-    }   
+    }
 }
 
 function toMMSS (val ) {
@@ -688,13 +688,13 @@ function update_local_timer() {
     var hostileElem = document.getElementById("progress_hostile");
 
     if((elapsed > 30 * 60) || local_status==3 )
-    {      
+    {
       timeElem.innerHTML = "??:??";
       elapsed = 30*60;
     }else
     {
       timeElem.innerHTML = toMMSS(elapsed);
-    }   
+    }
 
     var ratio = 1 - elapsed / (30 * 60);
     if (local_status == 0) {
@@ -717,7 +717,7 @@ EveLiveData.tracker2Elem = document.getElementById("tracker_2");
 EveLiveData.tracker3Elem = document.getElementById("tracker_3");
 
 
-EveLiveData.on_local_change=function(local_system_id){ 
+EveLiveData.on_local_change=function(local_system_id){
   Data = EveStaticData.getSystemsWithin(local_system_id, 4);
   draw_map();
   var local_system = EveStaticData.getSystemByID(local_system_id);
@@ -725,13 +725,13 @@ EveLiveData.on_local_change=function(local_system_id){
 
 };
 
-EveLiveData.on_local_status_change=function(intel){ 
- 
+EveLiveData.on_local_status_change=function(intel){
+
   clearInterval(timer_interval);
   if(typeof(intel) !== "undefined")
   {
-     //console.log("local:"+intel.system_id+" at:"+intel.seen_at); 
-    var serverTime = EveLiveData.get_server_time();  
+     //console.log("local:"+intel.system_id+" at:"+intel.seen_at);
+    var serverTime = EveLiveData.get_server_time();
     var seen_at = parse_date(intel.seen_at);
     var timeSpanSeconds = (serverTime - seen_at) * 0.001;
 
@@ -741,13 +741,13 @@ EveLiveData.on_local_status_change=function(intel){
     update_local_timer();
     timer_interval = setInterval(update_local_timer, 1000);
   }else{
-     console.log("no local intel"); 
-    local_status = 3;    
+     console.log("no local intel");
+    local_status = 3;
   }
   update_local_timer();
 };
 
-EveLiveData.on_new_intel=function(intels){ 
+EveLiveData.on_new_intel=function(intels){
   //new intel loaded
   var intel_panel = d3.select("#intel_container");
 
@@ -761,17 +761,17 @@ EveLiveData.on_new_intel=function(intels){
 
       var system =EveStaticData.getSystemByID(intel.system_id);
       var region =EveStaticData.getRegionByID(system.region_id);
-      //div.html(shorten_date(intel.seen_at)+" "+system.name);//+" "+intel.status);          
+      //div.html(shorten_date(intel.seen_at)+" "+system.name);//+" "+intel.status);
       div.html(shorten_date(intel.seen_at)+"  -  "+region.name+" - "+system.name);
     }
-  ); 
-};
-  
-EveLiveData.on_tracker_change=function(trackers){
-   draw_targets(trackers);    
+  );
 };
 
-EveLiveData.on_intel_update=function(){ 
+EveLiveData.on_tracker_change=function(trackers){
+   draw_targets(trackers);
+};
+
+EveLiveData.on_intel_update=function(){
  draw_intel();
 }
 
