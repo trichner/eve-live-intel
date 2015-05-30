@@ -47,6 +47,8 @@ app.post('/intel', function(req, res, next) {
 app.get('/intel', function(req, res, next) {
     var timestamp   = req.query.last_update;
     var pilot = req.session.passport.user;
+    console.log("Pilot: " + JSON.stringify(pilot))
+    console.log("timestamp: " + JSON.stringify(timestamp))
     service.getIntel(pilot,timestamp)
         .then(function (intel) {
             res.json(intel);
