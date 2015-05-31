@@ -54,7 +54,8 @@ var IntelReport = sequelize.define('intel_report', {
         type: Sequelize.DATE
     },
     status: {
-        type: Sequelize.ENUM('CLEAR','HOSTILE')
+        type: Sequelize.STRING,
+        values: ['CLEAR','HOSTILE']
     }
 }, {});
 

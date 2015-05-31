@@ -65,6 +65,9 @@ function createIntelReport(pilotId,timestamp,state){
                 .then(function (tracker) {
                     var systemId = tracker.systemId;
                     if(systemId){
+                        if(!timestamp){
+                            timestamp = new Date();
+                        }
                         return dao.createIntelReport(pilot,systemId,new Date(timestamp),state);
                     }else{
                         return new Error('No system set.')
