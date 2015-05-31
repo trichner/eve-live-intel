@@ -68,6 +68,8 @@ function createIntelReport(pilotId,timestamp,state){
                         if(!timestamp){
                             timestamp = new Date();
                         }
+                        console.log("Status:  " + state)
+                        console.log("StatusJ: " + JSON.stringify(state))
                         return dao.createIntelReport(pilot,systemId,new Date(timestamp),state);
                     }else{
                         return new Error('No system set.')
