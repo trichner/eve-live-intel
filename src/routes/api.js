@@ -33,7 +33,7 @@ app.get('/me', function(req, res, next) {
 
 app.post('/intel', function(req, res, next) {
     var timestamp  = req.query.timestamp;
-    var state      = req.query.state;
+    var state      = req.query.status;
     var pilotId = req.session.passport.user;
     service.createIntelReport(pilotId, timestamp, state)
         .then(function () {
