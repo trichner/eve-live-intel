@@ -72,6 +72,8 @@ function mapIntelReportDBVO(report){
 }
 
 function mapIntelReportState(status){
+    console.log("Status:  " + status)
+    console.log("StatusJ: " + JSON.stringify(status))
     switch (status) {
         case "CLEAR":
             return 0;
