@@ -154,7 +154,7 @@ function createIntelReport(pilot,systemId,timestamp,state){
     return IntelReport.create({
             systemId : systemId,
             timestamp: timestamp,
-            state: state
+            status: state
         })
         .then(function (intelReport) {
             return intelReport.setReporter(pilot);
