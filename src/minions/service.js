@@ -64,7 +64,11 @@ function createIntelReport(pilotId,timestamp,state){
             return dao.findLatestTracker(pilot)
                 .then(function (tracker) {
                     var systemId = tracker.systemId;
-                    return dao.createIntelReport(pilot,systemId,new Date(timestamp),state);
+                    if(systemId){
+                        return dao.createIntelReport(pilot,systemId,new Date(timestamp),state);
+                    }else{
+                        return new Error('No system set.')
+                    }
                 })
         })
 }

@@ -178,8 +178,8 @@ return {
 
 var EveLiveData = function() {
 	var load_intel_url 			= 'api/intel';
-	var send_intel_hostile_url  = 'api/intel?status=1';
-	var send_intel_clear_url 	= 'api/intel?status=0';
+	var send_intel_hostile_url  = 'api/intel?status=HOSTILE';
+	var send_intel_clear_url 	= 'api/intel?status=CLEAR';
 
 	var intel_polling_time = 5000;
 
