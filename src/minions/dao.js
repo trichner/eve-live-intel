@@ -162,5 +162,5 @@ function createIntelReport(pilot,systemId,timestamp,state){
 }
 
 function findIntelReportSince(timestamp){
-    return IntelReport.find({ where: {timestamp: {$gt: timestamp}}});
+    return IntelReport.findAll({ where: {timestamp: {$gt: timestamp}}});
 }
